@@ -1,0 +1,150 @@
+{% extends "base-v2.html" %}
+
+{% block title %}Create New Team - Soccer Practice Planner{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="form-container">
+                <h2 class="text-center mb-4">
+                    <i class="bi bi-people-fill"></i> Create New Team
+                </h2>
+
+                <form method="POST" action="{{ url_for('main.new_team') }}">
+                    <!-- Basic Team Information -->
+                    <div class="form-section">
+                        <h3><i class="bi bi-info-circle"></i> Basic Information</h3>
+
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Team Name *</label>
+                            <input type="text" class="form-control" id="name" name="name"
+                                   placeholder="e.g., Lightning FC, Thunder United" required>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="age_group" class="form-label">Age Group *</label>
+                                <select class="form-select" id="age_group" name="age_group" required>
+                                    <option value="">Select Age Group</option>
+                                    <option value="U9">U9 (Under 9)</option>
+                                    <option value="U10">U10 (Under 10)</option>
+                                    <option value="U12">U12 (Under 12)</option>
+                                    <option value="U14">U14 (Under 14)</option>
+                                    <option value="U16">U16 (Under 16)</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="skill_level" class="form-label">Skill Level *</label>
+                                <select class="form-select" id="skill_level" name="skill_level" required>
+                                    <option value="">Select Skill Level</option>
+                                    <option value="Beginner">Beginner</option>
+                                    <option value="Intermediate">Intermediate</option>
+                                    <option value="Advanced">Advanced</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="num_players" class="form-label">Number of Players *</label>
+                            <input type="number" class="form-control" id="num_players" name="num_players"
+                                   min="6" max="30" placeholder="e.g., 12" required>
+                            <small class="form-text text-muted">Typical teams have 10-18 players</small>
+                        </div>
+                    </div>
+
+                    <!-- Training Focus Areas -->
+                    <div class="form-section">
+                        <h3><i class="bi bi-bullseye"></i> Training Focus Areas</h3>
+                        <p class="text-muted">Select the areas you want to emphasize in practice sessions</p>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-check focus-area-checkbox">
+                                    <input class="form-check-input" type="checkbox" value="Passing"
+                                           id="focus_passing" name="focus_areas">
+                                    <label class="form-check-label" for="focus_passing">
+                                        <i class="bi bi-arrow-left-right"></i> Passing
+                                    </label>
+                                </div>
+                                <div class="form-check focus-area-checkbox">
+                                    <input class="form-check-input" type="checkbox" value="Dribbling"
+                                           id="focus_dribbling" name="focus_areas">
+                                    <label class="form-check-label" for="focus_dribbling">
+                                        <i class="bi bi-lightning"></i> Dribbling
+                                    </label>
+                                </div>
+                                <div class="form-check focus-area-checkbox">
+                                    <input class="form-check-input" type="checkbox" value="Shooting"
+                                           id="focus_shooting" name="focus_areas">
+                                    <label class="form-check-label" for="focus_shooting">
+                                        <i class="bi bi-bullseye"></i> Shooting
+                                    </label>
+                                </div>
+                                <div class="form-check focus-area-checkbox">
+                                    <input class="form-check-input" type="checkbox" value="Defending"
+                                           id="focus_defending" name="focus_areas">
+                                    <label class="form-check-label" for="focus_defending">
+                                        <i class="bi bi-shield-fill"></i> Defending
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check focus-area-checkbox">
+                                    <input class="form-check-input" type="checkbox" value="Possession"
+                                           id="focus_possession" name="focus_areas">
+                                    <label class="form-check-label" for="focus_possession">
+                                        <i class="bi bi-circle-fill"></i> Possession
+                                    </label>
+                                </div>
+                                <div class="form-check focus-area-checkbox">
+                                    <input class="form-check-input" type="checkbox" value="Transitions"
+                                           id="focus_transitions" name="focus_areas">
+                                    <label class="form-check-label" for="focus_transitions">
+                                        <i class="bi bi-arrow-repeat"></i> Transitions
+                                    </label>
+                                </div>
+                                <div class="form-check focus-area-checkbox">
+                                    <input class="form-check-input" type="checkbox" value="Fitness"
+                                           id="focus_fitness" name="focus_areas">
+                                    <label class="form-check-label" for="focus_fitness">
+                                        <i class="bi bi-heart-pulse"></i> Fitness
+                                    </label>
+                                </div>
+                                <div class="form-check focus-area-checkbox">
+                                    <input class="form-check-input" type="checkbox" value="Set Pieces"
+                                           id="focus_setpieces" name="focus_areas">
+                                    <label class="form-check-label" for="focus_setpieces">
+                                        <i class="bi bi-flag"></i> Set Pieces
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Notes -->
+                    <div class="form-section">
+                        <h3><i class="bi bi-pencil-square"></i> Additional Notes</h3>
+                        <div class="mb-3">
+                            <label for="additional_notes" class="form-label">Special Considerations</label>
+                            <textarea class="form-control" id="additional_notes" name="additional_notes"
+                                      rows="4" placeholder="e.g., Team struggles with maintaining possession, needs work on defensive shape, preparing for tournament..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Submit Buttons -->
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{ url_for('main.index') }}" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </a>
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <i class="bi bi-check-circle"></i> Create Team
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

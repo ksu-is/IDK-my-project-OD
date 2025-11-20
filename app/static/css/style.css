@@ -1,0 +1,166 @@
+/* Version 1 - Clean & Professional */
+
+:root {
+    --primary-color: #0d6efd;
+    --secondary-color: #6c757d;
+    --success-color: #198754;
+    --soccer-green: #2d7a3e;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+/* Welcome Screen Styles */
+.welcome-hero {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--soccer-green) 100%);
+    color: white;
+    padding: 100px 0;
+    text-align: center;
+}
+
+.welcome-hero h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.welcome-hero p {
+    font-size: 1.3rem;
+    margin-bottom: 30px;
+    opacity: 0.95;
+}
+
+.welcome-features {
+    padding: 60px 0;
+}
+
+.feature-card {
+    text-align: center;
+    padding: 30px;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.feature-card i {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+/* Form Styles */
+.form-container {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    padding: 40px;
+    margin: 40px 0;
+}
+
+.form-section {
+    margin-bottom: 30px;
+}
+
+.form-section h3 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.focus-area-checkbox {
+    padding: 10px;
+    margin: 5px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.focus-area-checkbox:hover {
+    border-color: var(--primary-color);
+    background-color: #f8f9fa;
+}
+
+.focus-area-checkbox input[type="checkbox"]:checked + label {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* Team Card Styles */
+.team-card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.team-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.badge-age {
+    background-color: var(--primary-color);
+    padding: 5px 12px;
+    border-radius: 20px;
+}
+
+.badge-skill {
+    padding: 5px 12px;
+    border-radius: 20px;
+}
+
+.skill-beginner {
+    background-color: #ffc107;
+}
+
+.skill-intermediate {
+    background-color: #fd7e14;
+}
+
+.skill-advanced {
+    background-color: #dc3545;
+}
+
+/* Button Styles */
+.btn-lg {
+    padding: 12px 40px;
+    font-size: 1.1rem;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+}
+
+.btn-success {
+    background-color: var(--soccer-green);
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #256830;
+}

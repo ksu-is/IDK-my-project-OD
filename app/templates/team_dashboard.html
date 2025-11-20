@@ -1,0 +1,73 @@
+{% extends "base-v2.html" %}
+
+{% block title %}{{ team.name }} - Dashboard{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-8">
+            <h2><i class="bi bi-trophy-fill"></i> {{ team.name }}</h2>
+            <div class="mb-3">
+                <span class="badge badge-age">{{ team.age_group }}</span>
+                <span class="badge skill-{{ team.skill_level.lower() }}">{{ team.skill_level }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-info-circle"></i> Team Information</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Number of Players:</strong> {{ team.num_players }}</p>
+                    <p><strong>Skill Level:</strong> {{ team.skill_level }}</p>
+                    <p><strong>Recommended Session Duration:</strong> {{ team.recommended_session_duration }} minutes</p>
+                    {% if team.focus_areas %}
+                    <p><strong>Focus Areas:</strong></p>
+                    <ul>
+                        {% for area in team.focus_areas_list %}
+                        <li>{{ area }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    {% if team.additional_notes %}
+                    <p><strong>Notes:</strong><br>{{ team.additional_notes }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="bi bi-lightning-fill"></i> Quick Actions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary" disabled>
+                            <i class="bi bi-plus-circle"></i> Create Practice Plan
+                            <small class="text-white">(Coming Soon)</small>
+                        </button>
+                        <button class="btn btn-info" disabled>
+                            <i class="bi bi-book"></i> View Drill Catalog
+                            <small class="text-white">(Coming Soon)</small>
+                        </button>
+                        <button class="btn btn-secondary" disabled>
+                            <i class="bi bi-folder"></i> My Saved Sessions
+                            <small class="text-white">(Coming Soon)</small>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a href="{{ url_for('main.teams_list') }}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Back to Teams
+        </a>
+    </div>
+</div>
+{% endblock %}
