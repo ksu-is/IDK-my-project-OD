@@ -1,0 +1,65 @@
+{% extends "base-v3.html" %}
+
+{% block title %}Soccer Practice Planner{% endblock %}
+
+{% set hide_nav = true %}
+
+{% block content %}
+<!-- Full Screen Hero - Minimal & Bold -->
+<div class="welcome-hero">
+    <div class="container">
+        <h1>
+            <i class="bi bi-trophy-fill"></i><br>
+            Soccer Practice Planner
+        </h1>
+        <p class="lead">Plan better. Coach smarter. Win more.</p>
+        <div class="hero-buttons">
+            <a href="{{ url_for('main.new_team') }}" class="btn btn-light btn-lg">
+                <i class="bi bi-plus-circle-fill"></i> Get Started
+            </a>
+            <a href="{{ url_for('main.teams_list') }}" class="btn btn-outline-light btn-lg">
+                <i class="bi bi-list-ul"></i> My Teams
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section - Simple Grid -->
+<div class="welcome-features">
+    <div class="container">
+        <h2>Built for Coaches Who Care</h2>
+
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+                    <h3>Team Management</h3>
+                    <p>Organize teams by age, skill level, and training needs. Simple and effective.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="bi bi-clock-history"></i>
+                    </div>
+                    <h3>Smart Planning</h3>
+                    <p>AI-powered recommendations for drill duration based on age and skill level.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="bi bi-diagram-3-fill"></i>
+                    </div>
+                    <h3>Visual Drills</h3>
+                    <p>Practice plans with clear diagrams. Easy to understand and implement.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

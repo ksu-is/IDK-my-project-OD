@@ -148,17 +148,6 @@ The application automatically suggests practice durations based on age:
 - **U14**: 90 minutes
 - **U16**: 105 minutes
 
-## Git Commit Plan (6 Commits)
-
-This project is designed to be developed in stages with clear Git commits:
-
-1. **Commit 1**: Initial project structure and Flask setup
-2. **Commit 2**: Database models and configuration
-3. **Commit 3**: Welcome screen and navigation (Version 1)
-4. **Commit 4**: Team creation form and input validation
-5. **Commit 5**: Team dashboard and list views
-6. **Commit 6**: Alternative interface (Version 2) and documentation
-
 ## Future Enhancements
 
 - [ ] Drill catalog with visual diagrams

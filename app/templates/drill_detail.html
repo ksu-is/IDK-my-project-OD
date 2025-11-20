@@ -1,0 +1,185 @@
+{% extends "base-v3.html" %}
+
+{% block title %}{{ drill.name }} - Soccer Practice Planner{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <!-- Back Button -->
+            <a href="{{ url_for('main.drills_catalog') }}" class="btn btn-secondary mb-4">
+                <i class="bi bi-arrow-left"></i> Back to Catalog
+            </a>
+
+            <!-- Drill Header -->
+            <div class="card drill-detail-card">
+                <div class="card-body p-4 p-md-5">
+                    <div class="d-flex justify-content-between align-items-start mb-4">
+                        <h1 style="color: var(--dark-slate); font-weight: 700;">{{ drill.name }}</h1>
+                        <span class="badge category-badge-large category-{{ drill.category.lower() }}">
+                            {{ drill.category }}
+                        </span>
+                    </div>
+
+                    {% if drill.sub_category %}
+                    <p class="lead text-muted">
+                        <i class="bi bi-tag-fill"></i> {{ drill.sub_category }}
+                    </p>
+                    {% endif %}
+
+                    <!-- Quick Info -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-3">
+                            <div class="info-box">
+                                <i class="bi bi-people-fill"></i>
+                                <strong>Players</strong>
+                                <span>{{ drill.min_players }}-{{ drill.max_players }}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="info-box">
+                                <i class="bi bi-clock-fill"></i>
+                                <strong>Duration</strong>
+                                <span>{{ drill.duration_minutes }} min</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="info-box">
+                                <i class="bi bi-speedometer"></i>
+                                <strong>Skill Level</strong>
+                                <span>{{ drill.skill_level }}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="info-box">
+                                <i class="bi bi-diagram-3-fill"></i>
+                                <strong>Age Groups</strong>
+                                <span>{{ drill.recommended_age_groups }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- Description -->
+                    <section class="drill-section">
+                        <h3><i class="bi bi-info-circle-fill"></i> Description</h3>
+                        <p>{{ drill.description }}</p>
+                    </section>
+
+                    <!-- Setup Instructions -->
+                    {% if drill.setup_instructions %}
+                    <section class="drill-section">
+                        <h3><i class="bi bi-gear-fill"></i> Setup Instructions</h3>
+                        <p style="white-space: pre-line;">{{ drill.setup_instructions }}</p>
+                    </section>
+                    {% endif %}
+
+                    <!-- Equipment -->
+                    {% if drill.equipment_needed %}
+                    <section class="drill-section">
+                        <h3><i class="bi bi-cone-striped"></i> Equipment Needed</h3>
+                        <p>{{ drill.equipment_needed }}</p>
+                    </section>
+                    {% endif %}
+
+                    <!-- Coaching Points -->
+                    {% if drill.coaching_points %}
+                    <section class="drill-section">
+                        <h3><i class="bi bi-lightbulb-fill"></i> Coaching Points</h3>
+                        <p style="white-space: pre-line;">{{ drill.coaching_points }}</p>
+                    </section>
+                    {% endif %}
+
+                    <!-- Focus Areas -->
+                    {% if drill.focus_areas %}
+                    <section class="drill-section">
+                        <h3><i class="bi bi-bullseye"></i> Focus Areas</h3>
+                        <p>{{ drill.focus_areas }}</p>
+                    </section>
+                    {% endif %}
+
+                    <!-- Variations -->
+                    {% if drill.variations %}
+                    <section class="drill-section">
+                        <h3><i class="bi bi-shuffle"></i> Variations</h3>
+                        <p style="white-space: pre-line;">{{ drill.variations }}</p>
+                    </section>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.drill-detail-card {
+    border: none;
+    border-radius: 25px;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.08);
+    border-left: 6px solid var(--steel-blue);
+}
+
+.category-badge-large {
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: 700;
+}
+
+.info-box {
+    background: var(--off-white);
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    border: 2px solid var(--light-gray);
+}
+
+.info-box i {
+    font-size: 2rem;
+    color: var(--steel-blue);
+    display: block;
+    margin-bottom: 10px;
+}
+
+.info-box strong {
+    display: block;
+    color: var(--dark-slate);
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+.info-box span {
+    color: #7f8c8d;
+    font-weight: 600;
+}
+
+.drill-section {
+    margin: 30px 0;
+}
+
+.drill-section h3 {
+    color: var(--steel-blue);
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.drill-section h3 i {
+    color: var(--coral-orange);
+    margin-right: 10px;
+}
+
+.drill-section p {
+    color: #2c3e50;
+    line-height: 1.8;
+    font-size: 1.05rem;
+}
+
+hr {
+    border-color: var(--light-gray);
+    border-width: 2px;
+    margin: 30px 0;
+}
+</style>
+{% endblock %}

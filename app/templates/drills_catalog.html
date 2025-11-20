@@ -1,0 +1,152 @@
+{% extends "base-v3.html" %}
+
+{% block title %}Drill Catalog - Soccer Practice Planner{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto text-center">
+            <h1 class="display-4" style="color: var(--dark-slate); font-weight: 700;">Drill Catalog</h1>
+            <p class="lead" style="color: #7f8c8d;">Browse our collection of professional soccer drills</p>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card" style="border-radius: 15px; border: 2px solid var(--light-gray);">
+                <div class="card-body">
+                    <form method="GET" action="{{ url_for('main.drills_catalog') }}">
+                        <div class="row g-3 align-items-end">
+                            <div class="col-md-4">
+                                <label class="form-label" style="font-weight: 600; color: var(--dark-slate);">
+                                    <i class="bi bi-funnel"></i> Category
+                                </label>
+                                <select name="category" class="form-select" onchange="this.form.submit()">
+                                    <option value="All" {% if selected_category == 'All' %}selected{% endif %}>All Categories</option>
+                                    <option value="Technical" {% if selected_category == 'Technical' %}selected{% endif %}>Technical</option>
+                                    <option value="Tactical" {% if selected_category == 'Tactical' %}selected{% endif %}>Tactical</option>
+                                    <option value="Physical" {% if selected_category == 'Physical' %}selected{% endif %}>Physical</option>
+                                    <option value="Fun" {% if selected_category == 'Fun' %}selected{% endif %}>Fun/Games</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label" style="font-weight: 600; color: var(--dark-slate);">
+                                    <i class="bi bi-speedometer"></i> Skill Level
+                                </label>
+                                <select name="skill_level" class="form-select" onchange="this.form.submit()">
+                                    <option value="All" {% if selected_skill == 'All' %}selected{% endif %}>All Levels</option>
+                                    <option value="Beginner" {% if selected_skill == 'Beginner' %}selected{% endif %}>Beginner</option>
+                                    <option value="Intermediate" {% if selected_skill == 'Intermediate' %}selected{% endif %}>Intermediate</option>
+                                    <option value="Advanced" {% if selected_skill == 'Advanced' %}selected{% endif %}>Advanced</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="{{ url_for('main.drills_catalog') }}" class="btn btn-secondary w-100">
+                                    <i class="bi bi-x-circle"></i> Clear Filters
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Drills Grid -->
+    {% if drills %}
+        <div class="row g-4">
+            {% for drill in drills %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card drill-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <h5 class="card-title mb-0">{{ drill.name }}</h5>
+                            <span class="badge category-badge category-{{ drill.category.lower() }}">
+                                {{ drill.category }}
+                            </span>
+                        </div>
+
+                        {% if drill.sub_category %}
+                        <p class="text-muted mb-2">
+                            <i class="bi bi-tag"></i> {{ drill.sub_category }}
+                        </p>
+                        {% endif %}
+
+                        <p class="card-text">{{ drill.description[:120] }}{% if drill.description|length > 120 %}...{% endif %}</p>
+
+                        <div class="drill-meta mb-3">
+                            <span class="badge bg-secondary me-2">
+                                <i class="bi bi-people"></i> {{ drill.min_players }}-{{ drill.max_players }} players
+                            </span>
+                            <span class="badge bg-info">
+                                <i class="bi bi-clock"></i> {{ drill.duration_minutes }} min
+                            </span>
+                        </div>
+
+                        <a href="{{ url_for('main.drill_detail', drill_id=drill.id) }}" class="btn btn-primary w-100">
+                            <i class="bi bi-eye"></i> View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <i class="bi bi-inbox"></i>
+            <h3>No drills found</h3>
+            <p>Try adjusting your filters or check back later for new drills.</p>
+        </div>
+    {% endif %}
+</div>
+
+<style>
+.drill-card {
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.drill-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, var(--steel-blue), var(--coral-orange));
+}
+
+.drill-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(70, 130, 180, 0.2);
+}
+
+.drill-card .card-title {
+    color: var(--dark-slate);
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.category-badge {
+    font-size: 0.75rem;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.category-technical { background: var(--steel-blue); }
+.category-tactical { background: var(--olive-green); }
+.category-physical { background: var(--coral-orange); }
+.category-fun { background: var(--desert-gold); color: var(--dark-slate); }
+
+.drill-meta .badge {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+}
+</style>
+{% endblock %}

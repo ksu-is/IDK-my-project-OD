@@ -1,14 +1,14 @@
 """Application routes for Soccer Practice Planner"""
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from app import db
-from app.models import Team, Player
+from app.models import Team, Player, Drill
 
 bp = Blueprint('main', __name__)
 
 @bp.route('/')
 def index():
     """Welcome screen / landing page"""
-    return render_template('welcome.html')
+    return render_template('welcome-v3.html')
 
 @bp.route('/team/new', methods=['GET', 'POST'])
 def new_team():
@@ -51,3 +51,29 @@ def teams_list():
     """List all teams"""
     teams = Team.query.order_by(Team.created_at.desc()).all()
     return render_template('teams_list.html', teams=teams)
+
+@bp.route('/drills')
+def drills_catalog():
+    """Drill catalog - browse all drills"""
+    category = request.args.get('category', 'All')
+    skill_level = request.args.get('skill_level', 'All')
+
+    query = Drill.query
+
+    if category != 'All':
+        query = query.filter_by(category=category)
+
+    if skill_level != 'All':
+        query = query.filter_by(skill_level=skill_level)
+
+    drills = query.order_by(Drill.name).all()
+
+    return render_template('drills_catalog.html', drills=drills,
+                         selected_category=category,
+                         selected_skill=skill_level)
+
+@bp.route('/drill/<int:drill_id>')
+def drill_detail(drill_id):
+    """View detailed information about a specific drill"""
+    drill = Drill.query.get_or_404(drill_id)
+    return render_template('drill_detail.html', drill=drill)
