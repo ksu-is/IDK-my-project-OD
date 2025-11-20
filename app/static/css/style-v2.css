@@ -1,0 +1,300 @@
+/* Version 2 - Modern & Colorful (Soccer-themed) */
+
+:root {
+    --soccer-green: #00A651;
+    --field-green: #2d7a3e;
+    --soccer-orange: #FF6B35;
+    --soccer-blue: #004E89;
+    --soccer-yellow: #FFD23F;
+}
+
+body {
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+main {
+    flex: 1;
+}
+
+/* Welcome Screen Styles - Soccer Field Theme */
+.welcome-hero {
+    background: linear-gradient(135deg, var(--soccer-green) 0%, var(--field-green) 100%);
+    background-image:
+        linear-gradient(135deg, var(--soccer-green) 0%, var(--field-green) 100%),
+        repeating-linear-gradient(90deg, transparent, transparent 48%, rgba(255,255,255,0.1) 48%, rgba(255,255,255,0.1) 52%, transparent 52%);
+    color: white;
+    padding: 120px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.welcome-hero::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 200px;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+}
+
+.welcome-hero h1 {
+    font-size: 4rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 1;
+}
+
+.welcome-hero p {
+    font-size: 1.4rem;
+    margin-bottom: 40px;
+    opacity: 0.95;
+    position: relative;
+    z-index: 1;
+}
+
+.welcome-features {
+    padding: 80px 0;
+    background: white;
+}
+
+.feature-card {
+    text-align: center;
+    padding: 40px 30px;
+    border-radius: 20px;
+    transition: all 0.4s ease;
+    height: 100%;
+    background: white;
+    border: 3px solid transparent;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.feature-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    border-color: var(--soccer-orange);
+}
+
+.feature-card i {
+    font-size: 4rem;
+    margin-bottom: 25px;
+    background: linear-gradient(135deg, var(--soccer-orange), var(--soccer-yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.feature-card h3 {
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+    color: var(--soccer-blue);
+    font-weight: 700;
+}
+
+.feature-card p {
+    color: #666;
+    line-height: 1.6;
+}
+
+/* Navigation */
+.navbar {
+    background: linear-gradient(90deg, var(--soccer-blue) 0%, var(--soccer-green) 100%) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px 0;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+/* Form Styles - Soccer Theme */
+.form-container {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    padding: 50px;
+    margin: 40px 0;
+    border: 3px solid var(--soccer-orange);
+}
+
+.form-section {
+    margin-bottom: 40px;
+}
+
+.form-section h3 {
+    color: var(--soccer-blue);
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid var(--soccer-orange);
+    font-weight: 700;
+}
+
+.form-control, .form-select {
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 12px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--soccer-orange);
+    box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25);
+}
+
+.focus-area-checkbox {
+    padding: 15px;
+    margin: 8px 0;
+    border: 3px solid #e0e0e0;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+}
+
+.focus-area-checkbox:hover {
+    border-color: var(--soccer-orange);
+    background: #fff;
+    transform: translateX(5px);
+}
+
+.focus-area-checkbox input[type="checkbox"]:checked + label {
+    color: var(--soccer-green);
+    font-weight: 700;
+}
+
+/* Team Card Styles */
+.team-card {
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s ease;
+    overflow: hidden;
+    border: 3px solid transparent;
+}
+
+.team-card:hover {
+    transform: translateY(-10px) rotate(1deg);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    border-color: var(--soccer-orange);
+}
+
+.team-card .card-body {
+    padding: 30px;
+}
+
+.badge-age {
+    background: linear-gradient(135deg, var(--soccer-blue), var(--soccer-green));
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.badge-skill {
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.skill-beginner {
+    background: linear-gradient(135deg, #FFD93D, #FFA500);
+}
+
+.skill-intermediate {
+    background: linear-gradient(135deg, #FF6B35, #FF8C42);
+}
+
+.skill-advanced {
+    background: linear-gradient(135deg, #DC3545, #C82333);
+}
+
+/* Button Styles - Vibrant */
+.btn {
+    border-radius: 12px;
+    font-weight: 600;
+    padding: 12px 30px;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.btn-lg {
+    padding: 15px 45px;
+    font-size: 1.2rem;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--soccer-blue), var(--soccer-green));
+    box-shadow: 0 4px 15px rgba(0, 78, 137, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 78, 137, 0.4);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, var(--soccer-green), #00C76A);
+    box-shadow: 0 4px 15px rgba(0, 166, 81, 0.3);
+}
+
+.btn-success:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 166, 81, 0.4);
+}
+
+.btn-light {
+    background: white;
+    color: var(--soccer-green);
+    border: 3px solid white;
+    font-weight: 700;
+}
+
+.btn-light:hover {
+    background: var(--soccer-yellow);
+    color: var(--soccer-blue);
+    transform: translateY(-3px);
+}
+
+.btn-outline-light {
+    border: 3px solid white;
+    color: white;
+    font-weight: 700;
+}
+
+.btn-outline-light:hover {
+    background: white;
+    color: var(--soccer-green);
+    transform: translateY(-3px);
+}
+
+/* Footer */
+footer {
+    background: linear-gradient(90deg, var(--soccer-blue) 0%, var(--soccer-green) 100%);
+    color: white;
+    padding: 30px 0;
+}
+
+footer p {
+    margin: 0;
+    opacity: 0.9;
+}
+
+/* Animations */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.feature-card i {
+    animation: float 3s ease-in-out infinite;
+}

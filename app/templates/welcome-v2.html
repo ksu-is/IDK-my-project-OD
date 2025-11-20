@@ -1,0 +1,71 @@
+{% extends "base-v2.html" %}
+
+{% block title %}Welcome - Soccer Practice Planner{% endblock %}
+
+{% set hide_nav = true %}
+
+{% block content %}
+<div class="welcome-hero">
+    <div class="container">
+        <h1><i class="bi bi-trophy-fill"></i> Soccer Practice Planner</h1>
+        <p class="lead">Transform Your Coaching with Smart, Visual Practice Plans</p>
+        <div class="mt-5">
+            <a href="{{ url_for('main.new_team') }}" class="btn btn-light btn-lg me-3">
+                <i class="bi bi-plus-circle"></i> Create New Team
+            </a>
+            <a href="{{ url_for('main.teams_list') }}" class="btn btn-outline-light btn-lg">
+                <i class="bi bi-list-ul"></i> View My Teams
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="welcome-features">
+    <div class="container">
+        <h2 class="text-center mb-5" style="color: var(--soccer-blue); font-weight: 800;">
+            Everything You Need to Run Amazing Practices
+        </h2>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <i class="bi bi-people-fill"></i>
+                    <h3>Team Management</h3>
+                    <p>Input team information including age group (U9-U16), skill level, number of players, and specific training needs.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <i class="bi bi-diagram-3-fill"></i>
+                    <h3>Custom Practice Plans</h3>
+                    <p>Generate age-appropriate practice sessions with visual diagrams showing drill setups and player movements.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <i class="bi bi-book-fill"></i>
+                    <h3>Drill Catalog</h3>
+                    <p>Access a comprehensive library of drills organized by game situations, skill level, and training objectives.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4 g-4">
+            <div class="col-md-6">
+                <div class="feature-card">
+                    <i class="bi bi-clock-fill"></i>
+                    <h3>Smart Duration Suggestions</h3>
+                    <p>Automatically recommends drill durations based on your team's age and skill level for optimal training sessions.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="feature-card">
+                    <i class="bi bi-folder-fill"></i>
+                    <h3>Session Library</h3>
+                    <p>Save and organize your practice plans for different game situations and easily reuse successful sessions.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
