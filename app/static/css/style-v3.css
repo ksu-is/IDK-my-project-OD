@@ -1,7 +1,5 @@
 /* Version 3 - Minimalist & Bold (Steel Blue Edition) */
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap');
-
 :root {
     --steel-blue: #4682B4;
     --desert-gold: #DAA520;
@@ -20,14 +18,28 @@
     box-sizing: border-box;
 }
 
+/* Force hardware acceleration for better performance */
+.feature-card,
+.team-card,
+.drill-card,
+.btn,
+.hero-buttons .btn {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     background: var(--off-white);
     color: var(--dark-slate);
     overflow-x: hidden;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 main {
@@ -57,7 +69,6 @@ main {
     border-radius: 50%;
     top: -300px;
     right: -200px;
-    animation: pulse 8s ease-in-out infinite;
 }
 
 .welcome-hero::after {
@@ -69,12 +80,7 @@ main {
     opacity: 0.06;
     bottom: -150px;
     left: -100px;
-    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-}
-
-@keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
+    border-radius: 50%;
 }
 
 .welcome-hero .container {
@@ -97,12 +103,6 @@ main {
     color: var(--desert-gold);
     font-size: 4.5rem;
     display: inline-block;
-    animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-15px); }
 }
 
 .welcome-hero p.lead {
@@ -130,8 +130,9 @@ main {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    will-change: transform;
 }
 
 .hero-buttons .btn-light {
@@ -194,7 +195,8 @@ main {
     box-shadow: 0 10px 40px var(--shadow-color);
     position: relative;
     overflow: hidden;
-    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    will-change: transform;
 }
 
 .feature-card::before {
@@ -215,8 +217,8 @@ main {
 }
 
 .feature-card:hover {
-    transform: translateY(-15px) scale(1.02);
-    box-shadow: 0 20px 60px rgba(70, 130, 180, 0.3);
+    transform: translateY(-10px);
+    box-shadow: 0 20px 50px rgba(70, 130, 180, 0.3);
 }
 
 .feature-icon {
@@ -231,7 +233,7 @@ main {
     font-size: 2.5rem;
     color: var(--pure-white);
     position: relative;
-    transition: all 0.4s ease;
+    transition: transform 0.3s ease;
 }
 
 .feature-card:nth-child(1) .feature-icon { background: var(--steel-blue); }
@@ -241,7 +243,7 @@ main {
 .feature-card:nth-child(5) .feature-icon { background: var(--dark-slate); }
 
 .feature-card:hover .feature-icon {
-    transform: rotateY(360deg);
+    transform: scale(1.1);
 }
 
 .feature-card h3 {
@@ -474,9 +476,10 @@ main {
     border-radius: 12px;
     font-weight: 600;
     padding: 14px 32px;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
     border: none;
     font-size: 1rem;
+    will-change: transform;
 }
 
 .btn-primary {
@@ -575,6 +578,223 @@ footer p {
     font-size: 1.1rem;
 }
 
+/* Dark Mode Styles */
+body.dark-mode {
+    background: #1a1a2e;
+    color: #e0e0e0;
+}
+
+/* Smooth transitions for all elements in dark mode */
+.navbar,
+.feature-card,
+.form-container,
+.team-card,
+.drill-card,
+.drill-detail-card,
+.info-box,
+.card {
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+body.dark-mode .navbar {
+    background: #16213e !important;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-mode .navbar-brand {
+    color: var(--desert-gold) !important;
+}
+
+body.dark-mode .nav-link {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .nav-link:hover {
+    background: var(--steel-blue);
+    color: var(--pure-white) !important;
+}
+
+body.dark-mode #darkModeToggle {
+    background: transparent;
+    border: none;
+    color: var(--desert-gold);
+}
+
+body.dark-mode .welcome-hero {
+    background: linear-gradient(135deg, #16213e 0%, #0f1419 100%);
+}
+
+body.dark-mode .welcome-features {
+    background: #1a1a2e;
+}
+
+body.dark-mode .welcome-features h2 {
+    color: #e0e0e0;
+}
+
+body.dark-mode .feature-card {
+    background: #16213e;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-mode .feature-card h3 {
+    color: #e0e0e0;
+}
+
+body.dark-mode .feature-card p {
+    color: #b0b0b0;
+}
+
+body.dark-mode .form-container {
+    background: #16213e;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+    border-left: 6px solid var(--desert-gold);
+}
+
+body.dark-mode .form-container h2 {
+    color: #e0e0e0;
+}
+
+body.dark-mode .form-section h3 {
+    color: var(--desert-gold);
+}
+
+body.dark-mode .form-label {
+    color: #e0e0e0;
+}
+
+body.dark-mode .form-control,
+body.dark-mode .form-select {
+    background: #0f1419;
+    border-color: #2a2a3e;
+    color: #e0e0e0;
+}
+
+body.dark-mode .form-control:focus,
+body.dark-mode .form-select:focus {
+    background: #16213e;
+    border-color: var(--steel-blue);
+    color: #e0e0e0;
+}
+
+body.dark-mode .focus-area-checkbox {
+    background: #0f1419;
+    border-color: #2a2a3e;
+}
+
+body.dark-mode .focus-area-checkbox:hover {
+    border-color: var(--desert-gold);
+}
+
+body.dark-mode .focus-area-checkbox input[type="checkbox"]:checked + label {
+    color: var(--desert-gold);
+}
+
+body.dark-mode .team-card {
+    background: #16213e;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-mode .team-card .card-title {
+    color: #e0e0e0;
+}
+
+body.dark-mode .team-card .card-text {
+    color: #b0b0b0;
+}
+
+body.dark-mode .drill-card {
+    background: #16213e;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-mode .drill-card .card-title {
+    color: #e0e0e0;
+}
+
+body.dark-mode .drill-card .card-text {
+    color: #b0b0b0;
+}
+
+body.dark-mode .drill-detail-card {
+    background: #16213e;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+    border-left: 6px solid var(--desert-gold);
+}
+
+body.dark-mode .drill-detail-card h1 {
+    color: #e0e0e0;
+}
+
+body.dark-mode .drill-section h3 {
+    color: var(--desert-gold);
+}
+
+body.dark-mode .drill-section p {
+    color: #b0b0b0;
+}
+
+body.dark-mode .info-box {
+    background: #0f1419;
+    border-color: #2a2a3e;
+}
+
+body.dark-mode .info-box strong {
+    color: #e0e0e0;
+}
+
+body.dark-mode .info-box span {
+    color: #b0b0b0;
+}
+
+body.dark-mode .btn-secondary {
+    background: #2a2a3e;
+    color: #e0e0e0;
+}
+
+body.dark-mode .btn-secondary:hover {
+    background: var(--steel-blue);
+    color: var(--pure-white);
+}
+
+body.dark-mode .empty-state h3 {
+    color: #e0e0e0;
+}
+
+body.dark-mode .empty-state p {
+    color: #b0b0b0;
+}
+
+body.dark-mode .alert-success {
+    background: rgba(218, 165, 32, 0.2);
+    color: var(--desert-gold);
+    border-left: 5px solid var(--desert-gold);
+}
+
+body.dark-mode footer {
+    background: #0f1419;
+}
+
+body.dark-mode .card {
+    background: #16213e;
+    border-color: #2a2a3e;
+}
+
+body.dark-mode hr {
+    border-color: #2a2a3e;
+}
+
+/* Performance optimizations - reduce animations on lower-end devices */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .welcome-hero h1 {
@@ -599,5 +819,20 @@ footer p {
 
     .welcome-features h2 {
         font-size: 2.5rem;
+    }
+
+    /* Simplify animations on mobile for better performance */
+    .feature-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .feature-card:hover .feature-icon {
+        transform: scale(1.05);
+    }
+
+    /* Remove heavy effects on mobile */
+    .feature-card::before,
+    .team-card::before {
+        display: none;
     }
 }

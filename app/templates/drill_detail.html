@@ -61,6 +61,19 @@
 
                     <hr>
 
+                    <!-- Diagram -->
+                    {% if drill.diagram_url %}
+                    <section class="drill-section">
+                        <h3><i class="bi bi-diagram-2-fill"></i> Drill Diagram</h3>
+                        <div class="text-center">
+                            <img src="{{ url_for('static', filename=drill.diagram_url) }}"
+                                 alt="{{ drill.name }} Diagram"
+                                 class="img-fluid drill-diagram"
+                                 style="max-width: 600px; border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.15);">
+                        </div>
+                    </section>
+                    {% endif %}
+
                     <!-- Description -->
                     <section class="drill-section">
                         <h3><i class="bi bi-info-circle-fill"></i> Description</h3>
