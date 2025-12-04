@@ -1,0 +1,329 @@
+{% extends "base-v3.html" %}
+
+{% block title %}Create Practice Plan - {{ team.name }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col">
+            <h2><i class="bi bi-clipboard-check-fill"></i> Create Practice Plan for {{ team.name }}</h2>
+            <p class="text-muted">Build a customized practice session with drills tailored to your team's needs.</p>
+        </div>
+    </div>
+
+    <form method="POST" id="practicePlanForm">
+        <div class="row">
+            <!-- Left Column: Plan Details -->
+            <div class="col-lg-4">
+                <div class="form-container">
+                    <h3><i class="bi bi-info-circle-fill"></i> Plan Details</h3>
+
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Plan Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required
+                               placeholder="e.g., Week 3 - Passing Focus">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="duration_minutes" class="form-label">Session Duration (minutes)</label>
+                        <input type="number" class="form-control" id="duration_minutes" name="duration_minutes"
+                               value="{{ team.recommended_session_duration }}" min="30" max="180" required>
+                        <div class="form-text">Recommended: {{ team.recommended_session_duration }} min for {{ team.age_group }}</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="notes" class="form-label">Notes (Optional)</label>
+                        <textarea class="form-control" id="notes" name="notes" rows="3"
+                                  placeholder="Any special instructions or goals..."></textarea>
+                    </div>
+
+                    <hr>
+
+                    <div class="mb-3">
+                        <h5>Team Info</h5>
+                        <p><strong>Age Group:</strong> {{ team.age_group }}</p>
+                        <p><strong>Skill Level:</strong> {{ team.skill_level }}</p>
+                        <p><strong>Players:</strong> {{ team.num_players }}</p>
+                        {% if team.focus_areas_list %}
+                        <p><strong>Focus Areas:</strong></p>
+                        <ul class="list-unstyled">
+                            {% for area in team.focus_areas_list %}
+                            <li><i class="bi bi-check-circle-fill text-success"></i> {{ area }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Drill Selection -->
+            <div class="col-lg-8">
+                <div class="form-container">
+                    <h3><i class="bi bi-list-check"></i> Build Your Session</h3>
+                    <p>Drag drills to reorder. Set duration for each drill.</p>
+
+                    <!-- Selected Drills List -->
+                    <div id="selectedDrills" class="mb-4">
+                        <h5>Selected Drills (<span id="drillCount">0</span>)</h5>
+                        <div id="selectedDrillsList" class="border rounded p-3 bg-light" style="min-height: 100px;">
+                            <p class="text-muted text-center" id="emptyMessage">No drills selected yet. Choose from suggested drills below.</p>
+                        </div>
+                        <div class="mt-2">
+                            <strong>Total Time:</strong> <span id="totalTime">0</span> min
+                            <span class="ms-3">
+                                <strong>Session Duration:</strong> <span id="sessionDuration">{{ team.recommended_session_duration }}</span> min
+                            </span>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- Available Drills -->
+                    <div>
+                        <h5>{% if template %}Template: {{ template.name }}{% else %}Available Drills{% endif %}</h5>
+                        <p class="text-muted">
+                            {% if template %}
+                            Starting with {{ template.name }} template. Add, remove, or reorder drills as needed.
+                            {% else %}
+                            Browse all drills by category. Click to add to your session.
+                            {% endif %}
+                        </p>
+
+                        <!-- Category Filter -->
+                        <div class="mb-3">
+                            <label class="form-label">Filter by Category:</label>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-outline-primary active" data-category="All">All</button>
+                                <button type="button" class="btn btn-outline-primary" data-category="Technical">Technical</button>
+                                <button type="button" class="btn btn-outline-primary" data-category="Tactical">Tactical</button>
+                                <button type="button" class="btn btn-outline-primary" data-category="Physical">Physical</button>
+                                <button type="button" class="btn btn-outline-primary" data-category="Fun">Fun</button>
+                            </div>
+                        </div>
+
+                        <div class="row g-3" id="availableDrills">
+                            {% if all_drills %}
+                                {% for drill in all_drills %}
+                                <div class="col-md-6">
+                                    <div class="card drill-suggestion-card" data-drill-id="{{ drill.id }}"
+                                         data-drill-name="{{ drill.name }}"
+                                         data-drill-duration="{{ drill.duration_minutes or 15 }}">
+                                        <div class="card-body">
+                                            <h6 class="card-title">{{ drill.name }}</h6>
+                                            <p class="card-text small text-muted mb-2">{{ drill.description[:100] }}...</p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <span class="badge bg-primary">{{ drill.category }}</span>
+                                                    <span class="badge bg-secondary">{{ drill.duration_minutes or 15 }} min</span>
+                                                </div>
+                                                <button type="button" class="btn btn-sm btn-success add-drill-btn">
+                                                    <i class="bi bi-plus-circle"></i> Add
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="col-12">
+                                    <div class="alert alert-info">
+                                        <i class="bi bi-info-circle"></i> No drills match your team's criteria yet.
+                                        <a href="{{ url_for('main.drills_catalog') }}">Browse all drills</a>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col">
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="bi bi-save"></i> Save Practice Plan
+                </button>
+                <a href="{{ url_for('main.team_dashboard', team_id=team.id) }}" class="btn btn-secondary btn-lg ms-2">
+                    <i class="bi bi-x-circle"></i> Cancel
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let selectedDrills = {% if selected_drills %}{{ selected_drills|tojson }}{% else %}[]{% endif %};
+let sessionDuration = {{ template.total_duration if template else team.recommended_session_duration }};
+
+// Pre-populate template data if available
+{% if template %}
+document.getElementById('name').value = '{{ template.name }}';
+document.getElementById('duration_minutes').value = {{ template.total_duration }};
+document.getElementById('sessionDuration').textContent = {{ template.total_duration }};
+{% endif %}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    if (selectedDrills.length > 0) {
+        renderSelectedDrills();
+        updateTotalTime();
+    }
+    setupCategoryFilter();
+});
+
+// Update session duration when changed
+document.getElementById('duration_minutes').addEventListener('input', function() {
+    sessionDuration = parseInt(this.value);
+    document.getElementById('sessionDuration').textContent = sessionDuration;
+});
+
+// Category filter
+function setupCategoryFilter() {
+    document.querySelectorAll('[data-category]').forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Update active state
+            document.querySelectorAll('[data-category]').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+
+            const category = this.dataset.category;
+            const cards = document.querySelectorAll('.drill-suggestion-card');
+
+            cards.forEach(card => {
+                const cardCategory = card.querySelector('.badge.bg-primary').textContent.trim();
+                if (category === 'All' || cardCategory === category) {
+                    card.closest('.col-md-6').style.display = '';
+                } else {
+                    card.closest('.col-md-6').style.display = 'none';
+                }
+            });
+        });
+    });
+}
+
+// Add drill to selection
+document.querySelectorAll('.add-drill-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const card = this.closest('.drill-suggestion-card');
+        const drillId = card.dataset.drillId;
+        const drillName = card.dataset.drillName;
+        const drillDuration = parseInt(card.dataset.drillDuration);
+
+        // Check if already added
+        if (selectedDrills.find(d => d.id == drillId)) {
+            alert('This drill is already in your plan!');
+            return;
+        }
+
+        // Add to selected drills
+        selectedDrills.push({
+            id: drillId,
+            name: drillName,
+            duration: drillDuration
+        });
+
+        renderSelectedDrills();
+        updateTotalTime();
+    });
+});
+
+function renderSelectedDrills() {
+    const container = document.getElementById('selectedDrillsList');
+    const emptyMessage = document.getElementById('emptyMessage');
+
+    if (selectedDrills.length === 0) {
+        emptyMessage.style.display = 'block';
+        container.innerHTML = '<p class="text-muted text-center" id="emptyMessage">No drills selected yet. Choose from suggested drills below.</p>';
+        document.getElementById('drillCount').textContent = '0';
+        return;
+    }
+
+    emptyMessage.style.display = 'none';
+    container.innerHTML = '';
+
+    selectedDrills.forEach((drill, index) => {
+        const drillElement = document.createElement('div');
+        drillElement.className = 'selected-drill-item d-flex justify-content-between align-items-center p-3 mb-2 bg-white border rounded';
+        drillElement.innerHTML = `
+            <div>
+                <strong>${index + 1}. ${drill.name}</strong>
+                <input type="hidden" name="drill_ids[]" value="${drill.id}">
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <input type="number" name="drill_durations[]" value="${drill.duration}"
+                       class="form-control form-control-sm drill-duration-input" style="width: 80px;" min="5" max="60">
+                <span>min</span>
+                <button type="button" class="btn btn-sm btn-danger remove-drill-btn" data-index="${index}">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </div>
+        `;
+        container.appendChild(drillElement);
+    });
+
+    document.getElementById('drillCount').textContent = selectedDrills.length;
+
+    // Add event listeners for remove buttons
+    document.querySelectorAll('.remove-drill-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const index = parseInt(this.dataset.index);
+            selectedDrills.splice(index, 1);
+            renderSelectedDrills();
+            updateTotalTime();
+        });
+    });
+
+    // Add event listeners for duration inputs
+    document.querySelectorAll('.drill-duration-input').forEach(input => {
+        input.addEventListener('input', updateTotalTime);
+    });
+}
+
+function updateTotalTime() {
+    const durationInputs = document.querySelectorAll('.drill-duration-input');
+    let total = 0;
+    durationInputs.forEach(input => {
+        total += parseInt(input.value) || 0;
+    });
+    document.getElementById('totalTime').textContent = total;
+
+    // Update drill durations in selectedDrills array
+    durationInputs.forEach((input, index) => {
+        if (selectedDrills[index]) {
+            selectedDrills[index].duration = parseInt(input.value) || 0;
+        }
+    });
+}
+
+// Form validation
+document.getElementById('practicePlanForm').addEventListener('submit', function(e) {
+    if (selectedDrills.length === 0) {
+        e.preventDefault();
+        alert('Please add at least one drill to your practice plan!');
+        return false;
+    }
+});
+</script>
+
+<style>
+.drill-suggestion-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    height: 100%;
+}
+
+.drill-suggestion-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.selected-drill-item {
+    transition: all 0.2s ease;
+}
+
+.selected-drill-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+</style>
+{% endblock %}

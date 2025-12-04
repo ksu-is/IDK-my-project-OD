@@ -1,0 +1,167 @@
+{% extends "base-v3.html" %}
+
+{% block title %}{{ plan.name }} - Practice Plan{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-lg-8">
+            <h2><i class="bi bi-clipboard-check-fill"></i> {{ plan.name }}</h2>
+            <p class="text-muted">
+                Created {{ plan.created_at.strftime('%B %d, %Y') }} for
+                <a href="{{ url_for('main.team_dashboard', team_id=plan.team.id) }}">{{ plan.team.name }}</a>
+            </p>
+        </div>
+        <div class="col-lg-4 text-end">
+            <span class="badge badge-age">{{ plan.team.age_group }}</span>
+            <span class="badge skill-{{ plan.team.skill_level.lower() }}">{{ plan.team.skill_level }}</span>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Main Content -->
+        <div class="col-lg-8">
+            <!-- Session Overview -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-info-circle"></i> Session Overview</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Total Duration:</strong> {{ plan.duration_minutes }} minutes</p>
+                            <p><strong>Number of Drills:</strong> {{ plan.drills_count }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Drill Time:</strong> {{ plan.total_drill_time }} minutes</p>
+                            <p><strong>Transition/Rest:</strong> {{ plan.duration_minutes - plan.total_drill_time }} minutes</p>
+                        </div>
+                    </div>
+                    {% if plan.notes %}
+                    <hr>
+                    <p><strong>Notes:</strong></p>
+                    <p>{{ plan.notes }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Drills List -->
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="bi bi-list-ol"></i> Practice Schedule</h5>
+                </div>
+                <div class="card-body">
+                    {% if plan.plan_drills %}
+                        {% for plan_drill in plan.plan_drills|sort(attribute='order') %}
+                        <div class="drill-item mb-4 p-3 border rounded">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h5>
+                                        <span class="badge bg-primary">{{ plan_drill.order + 1 }}</span>
+                                        {{ plan_drill.drill.name }}
+                                    </h5>
+                                    <p class="text-muted mb-2">{{ plan_drill.drill.description }}</p>
+                                    <div class="mb-2">
+                                        <span class="badge bg-secondary">{{ plan_drill.drill.category }}</span>
+                                        {% if plan_drill.drill.sub_category %}
+                                        <span class="badge bg-info">{{ plan_drill.drill.sub_category }}</span>
+                                        {% endif %}
+                                    </div>
+                                    {% if plan_drill.notes %}
+                                    <p class="mb-0"><strong>Notes:</strong> {{ plan_drill.notes }}</p>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-4 text-end">
+                                    <div class="drill-duration-badge">
+                                        <h3 class="mb-0 text-primary">{{ plan_drill.duration_minutes }}</h3>
+                                        <p class="text-muted mb-2">minutes</p>
+                                    </div>
+                                    <a href="{{ url_for('main.drill_detail', drill_id=plan_drill.drill.id) }}"
+                                       class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-eye"></i> View Details
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Coaching Points -->
+                            {% if plan_drill.drill.coaching_points %}
+                            <div class="mt-3 p-2 bg-light rounded">
+                                <strong><i class="bi bi-lightbulb"></i> Key Coaching Points:</strong>
+                                <p class="mb-0 mt-1">{{ plan_drill.drill.coaching_points }}</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted">No drills in this practice plan yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Quick Actions -->
+            <div class="card mb-4">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="bi bi-lightning-fill"></i> Actions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary" onclick="window.print()">
+                            <i class="bi bi-printer"></i> Print Plan
+                        </button>
+                        <a href="{{ url_for('main.team_practice_plans', team_id=plan.team.id) }}" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> All Plans
+                        </a>
+                        <a href="{{ url_for('main.team_dashboard', team_id=plan.team.id) }}" class="btn btn-secondary">
+                            <i class="bi bi-house"></i> Team Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Equipment Needed -->
+            <div class="card">
+                <div class="card-header bg-warning">
+                    <h5 class="mb-0"><i class="bi bi-box"></i> Equipment Needed</h5>
+                </div>
+                <div class="card-body">
+                    {% set equipment_list = [] %}
+                    {% for plan_drill in plan.plan_drills %}
+                        {% if plan_drill.drill.equipment_needed %}
+                            {% set _ = equipment_list.append(plan_drill.drill.equipment_needed) %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if equipment_list %}
+                        <ul class="list-unstyled">
+                            {% for equipment in equipment_list|unique %}
+                            <li><i class="bi bi-check-circle text-success"></i> {{ equipment }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-muted mb-0">No specific equipment listed.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+@media print {
+    nav, footer, .btn, .card-header {
+        display: none !important;
+    }
+
+    .card {
+        border: 1px solid #ddd !important;
+        box-shadow: none !important;
+    }
+}
+</style>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "base-v3.html" %}
+
+{% block title %}Practice Plans - {{ team.name }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h2><i class="bi bi-folder-fill"></i> Practice Plans for {{ team.name }}</h2>
+            <p class="text-muted">View and manage all practice plans for this team.</p>
+        </div>
+        <div class="col-md-4 text-end">
+            <a href="{{ url_for('main.new_practice_plan', team_id=team.id) }}" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> New Practice Plan
+            </a>
+        </div>
+    </div>
+
+    {% if plans %}
+        <div class="row g-4">
+            {% for plan in plans %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card team-card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ plan.name }}</h5>
+                        <p class="card-text text-muted small">
+                            Created {{ plan.created_at.strftime('%b %d, %Y') }}
+                        </p>
+
+                        <div class="mb-3">
+                            <p class="mb-1"><strong><i class="bi bi-clock"></i></strong> {{ plan.duration_minutes }} minutes</p>
+                            <p class="mb-1"><strong><i class="bi bi-list-check"></i></strong> {{ plan.drills_count }} drills</p>
+                            <p class="mb-1"><strong><i class="bi bi-stopwatch"></i></strong> {{ plan.total_drill_time }} min drill time</p>
+                        </div>
+
+                        {% if plan.notes %}
+                        <p class="card-text small">
+                            <i class="bi bi-sticky"></i> {{ plan.notes[:80] }}{% if plan.notes|length > 80 %}...{% endif %}
+                        </p>
+                        {% endif %}
+
+                        <div class="mt-3">
+                            <a href="{{ url_for('main.practice_plan_detail', plan_id=plan.id) }}" class="btn btn-primary btn-sm">
+                                <i class="bi bi-eye"></i> View Plan
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <i class="bi bi-clipboard-x"></i>
+            <h3>No Practice Plans Yet</h3>
+            <p>Create your first practice plan to get started!</p>
+            <a href="{{ url_for('main.new_practice_plan', team_id=team.id) }}" class="btn btn-primary btn-lg mt-3">
+                <i class="bi bi-plus-circle"></i> Create First Plan
+            </a>
+        </div>
+    {% endif %}
+
+    <div class="mt-4">
+        <a href="{{ url_for('main.team_dashboard', team_id=team.id) }}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Back to Team Dashboard
+        </a>
+    </div>
+</div>
+{% endblock %}

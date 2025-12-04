@@ -1,0 +1,118 @@
+{% extends "base-v3.html" %}
+
+{% block title %}Create Practice Plan - {{ team.name }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col text-center">
+            <h2><i class="bi bi-clipboard-check-fill"></i> Create Practice Plan</h2>
+            <p class="lead text-muted">for {{ team.name }} ({{ team.age_group }} - {{ team.skill_level }})</p>
+        </div>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+        <!-- Custom Builder Option -->
+        <div class="col-md-6">
+            <div class="card h-100 session-choice-card">
+                <div class="card-body text-center p-5">
+                    <div class="choice-icon mb-4">
+                        <i class="bi bi-tools"></i>
+                    </div>
+                    <h3 class="card-title mb-3">Custom Session Builder</h3>
+                    <p class="card-text mb-4">
+                        Build your practice plan from scratch. Select any drills from the catalog and customize durations to fit your needs.
+                    </p>
+                    <ul class="text-start mb-4">
+                        <li>Choose from all available drills</li>
+                        <li>Full control over session structure</li>
+                        <li>Customize drill durations</li>
+                        <li>Perfect for unique training goals</li>
+                    </ul>
+                    <a href="{{ url_for('main.custom_practice_plan', team_id=team.id) }}" class="btn btn-primary btn-lg">
+                        <i class="bi bi-plus-circle"></i> Build Custom Session
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pre-built Templates Option -->
+        <div class="col-md-6">
+            <div class="card h-100 session-choice-card">
+                <div class="card-body text-center p-5">
+                    <div class="choice-icon mb-4">
+                        <i class="bi bi-file-earmark-text"></i>
+                    </div>
+                    <h3 class="card-title mb-3">Pre-built Session Templates</h3>
+                    <p class="card-text mb-4">
+                        Start with expertly designed practice sessions. Choose a template and customize it as needed for your team.
+                    </p>
+                    <ul class="text-start mb-4">
+                        <li>Professional session designs</li>
+                        <li>Topic-focused (Possession, Defending, etc.)</li>
+                        <li>Edit and customize any template</li>
+                        <li>Saves time and effort</li>
+                    </ul>
+                    <a href="{{ url_for('main.view_session_templates', team_id=team.id) }}" class="btn btn-success btn-lg">
+                        <i class="bi bi-eye"></i> Browse Templates
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col text-center">
+            <a href="{{ url_for('main.team_dashboard', team_id=team.id) }}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+.session-choice-card {
+    transition: all 0.3s ease;
+    border: 3px solid transparent;
+}
+
+.session-choice-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 50px rgba(70, 130, 180, 0.3);
+    border-color: var(--steel-blue);
+}
+
+.choice-icon {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, var(--steel-blue), var(--desert-gold));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    color: white;
+}
+
+.session-choice-card ul {
+    list-style: none;
+    padding: 0;
+}
+
+.session-choice-card ul li {
+    padding: 8px 0;
+    position: relative;
+    padding-left: 30px;
+}
+
+.session-choice-card ul li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--olive-green);
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+</style>
+{% endblock %}

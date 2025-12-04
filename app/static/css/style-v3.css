@@ -784,6 +784,52 @@ body.dark-mode hr {
     border-color: #2a2a3e;
 }
 
+/* Dark mode text elements */
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6 {
+    color: #e0e0e0;
+}
+
+body.dark-mode p,
+body.dark-mode li,
+body.dark-mode span:not(.badge) {
+    color: #b0b0b0;
+}
+
+body.dark-mode strong {
+    color: #e0e0e0;
+}
+
+body.dark-mode .card-header {
+    background: #1a2332 !important;
+    border-color: #2a2a3e;
+}
+
+body.dark-mode .card-body p,
+body.dark-mode .card-body li {
+    color: #b0b0b0;
+}
+
+body.dark-mode .card-body strong {
+    color: #e0e0e0;
+}
+
+body.dark-mode .text-white {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .bg-primary {
+    background: var(--steel-blue) !important;
+}
+
+body.dark-mode .bg-success {
+    background: var(--olive-green) !important;
+}
+
 /* Performance optimizations - reduce animations on lower-end devices */
 @media (prefers-reduced-motion: reduce) {
     *,
