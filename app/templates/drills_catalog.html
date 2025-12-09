@@ -8,6 +8,11 @@
         <div class="col-lg-8 mx-auto text-center">
             <h1 class="display-4" style="color: var(--dark-slate); font-weight: 700;">Drill Catalog</h1>
             <p class="lead" style="color: #7f8c8d;">Browse our collection of professional soccer drills</p>
+            <div class="mt-3">
+                <a href="{{ url_for('main.import_drills') }}" class="btn btn-primary btn-lg">
+                    <i class="bi bi-upload"></i> Import Drills from CSV
+                </a>
+            </div>
         </div>
     </div>
 
@@ -17,8 +22,16 @@
             <div class="card" style="border-radius: 15px; border: 2px solid var(--light-gray);">
                 <div class="card-body">
                     <form method="GET" action="{{ url_for('main.drills_catalog') }}">
+                        <div class="row g-3 align-items-end mb-3">
+                            <div class="col-md-12">
+                                <label class="form-label" style="font-weight: 600; color: var(--dark-slate);">
+                                    <i class="bi bi-search"></i> Search Drills
+                                </label>
+                                <input type="text" name="search" class="form-control" placeholder="Search by name or description..." value="{{ request.args.get('search', '') }}">
+                            </div>
+                        </div>
                         <div class="row g-3 align-items-end">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <label class="form-label" style="font-weight: 600; color: var(--dark-slate);">
                                     <i class="bi bi-funnel"></i> Category
                                 </label>
@@ -27,10 +40,11 @@
                                     <option value="Technical" {% if selected_category == 'Technical' %}selected{% endif %}>Technical</option>
                                     <option value="Tactical" {% if selected_category == 'Tactical' %}selected{% endif %}>Tactical</option>
                                     <option value="Physical" {% if selected_category == 'Physical' %}selected{% endif %}>Physical</option>
-                                    <option value="Fun" {% if selected_category == 'Fun' %}selected{% endif %}>Fun/Games</option>
+                                    <option value="Game" {% if selected_category == 'Game' %}selected{% endif %}>Game</option>
+                                    <option value="Fun" {% if selected_category == 'Fun' %}selected{% endif %}>Fun</option>
                                 </select>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <label class="form-label" style="font-weight: 600; color: var(--dark-slate);">
                                     <i class="bi bi-speedometer"></i> Skill Level
                                 </label>
@@ -41,9 +55,28 @@
                                     <option value="Advanced" {% if selected_skill == 'Advanced' %}selected{% endif %}>Advanced</option>
                                 </select>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
+                                <label class="form-label" style="font-weight: 600; color: var(--dark-slate);">
+                                    <i class="bi bi-people"></i> Age Group
+                                </label>
+                                <select name="age_group" class="form-select" onchange="this.form.submit()">
+                                    <option value="All" {% if request.args.get('age_group', 'All') == 'All' %}selected{% endif %}>All Ages</option>
+                                    <option value="U9" {% if request.args.get('age_group') == 'U9' %}selected{% endif %}>U9</option>
+                                    <option value="U10" {% if request.args.get('age_group') == 'U10' %}selected{% endif %}>U10</option>
+                                    <option value="U11" {% if request.args.get('age_group') == 'U11' %}selected{% endif %}>U11</option>
+                                    <option value="U12" {% if request.args.get('age_group') == 'U12' %}selected{% endif %}>U12</option>
+                                    <option value="U13" {% if request.args.get('age_group') == 'U13' %}selected{% endif %}>U13</option>
+                                    <option value="U14" {% if request.args.get('age_group') == 'U14' %}selected{% endif %}>U14</option>
+                                    <option value="U15" {% if request.args.get('age_group') == 'U15' %}selected{% endif %}>U15</option>
+                                    <option value="U16" {% if request.args.get('age_group') == 'U16' %}selected{% endif %}>U16</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-primary w-100 mb-2">
+                                    <i class="bi bi-search"></i> Search
+                                </button>
                                 <a href="{{ url_for('main.drills_catalog') }}" class="btn btn-secondary w-100">
-                                    <i class="bi bi-x-circle"></i> Clear Filters
+                                    <i class="bi bi-x-circle"></i> Clear
                                 </a>
                             </div>
                         </div>

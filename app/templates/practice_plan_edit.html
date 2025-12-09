@@ -1,17 +1,17 @@
 {% extends "base-v3.html" %}
 
-{% block title %}Create Practice Plan - {{ team.name }}{% endblock %}
+{% block title %}Edit Practice Plan - {{ team.name }}{% endblock %}
 
 {% block content %}
 <div class="container py-5">
     <div class="row mb-4">
         <div class="col">
-            <h2><i class="bi bi-clipboard-check-fill"></i> Create Practice Plan for {{ team.name }}</h2>
-            <p class="text-muted">Build a customized practice session with drills tailored to your team's needs.</p>
+            <h2><i class="bi bi-pencil-square"></i> Edit Practice Plan: {{ plan.name }}</h2>
+            <p class="text-muted">Update your practice session drills and details.</p>
         </div>
     </div>
 
-    <form method="POST" action="{{ url_for('main.new_practice_plan', team_id=team.id) }}" id="practicePlanForm">
+    <form method="POST" action="{{ url_for('main.edit_practice_plan', plan_id=plan.id) }}" id="practicePlanForm">
         <div class="row">
             <!-- Left Column: Plan Details -->
             <div class="col-lg-4">
@@ -21,20 +21,20 @@
                     <div class="mb-3">
                         <label for="name" class="form-label">Plan Name</label>
                         <input type="text" class="form-control" id="name" name="name" required
-                               placeholder="e.g., Week 3 - Passing Focus">
+                               value="{{ plan.name }}" placeholder="e.g., Week 3 - Passing Focus">
                     </div>
 
                     <div class="mb-3">
                         <label for="duration_minutes" class="form-label">Session Duration (minutes)</label>
                         <input type="number" class="form-control" id="duration_minutes" name="duration_minutes"
-                               value="{{ team.recommended_session_duration }}" min="30" max="180" required>
+                               value="{{ plan.duration_minutes }}" min="30" max="180" required>
                         <div class="form-text">Recommended: {{ team.recommended_session_duration }} min for {{ team.age_group }}</div>
                     </div>
 
                     <div class="mb-3">
                         <label for="notes" class="form-label">Notes (Optional)</label>
                         <textarea class="form-control" id="notes" name="notes" rows="3"
-                                  placeholder="Any special instructions or goals..."></textarea>
+                                  placeholder="Any special instructions or goals...">{{ plan.notes if plan.notes }}</textarea>
                     </div>
 
                     <hr>
@@ -163,8 +163,20 @@
 
 {% block extra_js %}
 <script>
-let selectedDrills = {% if selected_drills %}{{ selected_drills|tojson }}{% else %}[]{% endif %};
-let sessionDuration = {{ template.total_duration if template else team.recommended_session_duration }};
+// Pre-populate with existing drills from the plan
+let selectedDrills = [
+    {% for plan_drill in plan.plan_drills|sort(attribute='order') %}
+    {
+        id: {{ plan_drill.drill.id }},
+        name: "{{ plan_drill.drill.name }}",
+        description: "{{ plan_drill.drill.description }}",
+        category: "{{ plan_drill.drill.category }}",
+        duration: {{ plan_drill.duration_minutes }},
+        diagram_url: "{{ plan_drill.drill.diagram_url if plan_drill.drill.diagram_url else '' }}"
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+];
+let sessionDuration = {{ plan.duration_minutes }};
 
 // Pre-populate template data if available
 {% if template %}

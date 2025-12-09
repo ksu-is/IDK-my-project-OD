@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soccer Practice Planner - Code Issues and Fixes</title>
+    <style>
+        @media print {
+            body { margin: 0.5in; }
+            pre { page-break-inside: avoid; }
+            .problem-box, .solution-box { page-break-inside: avoid; }
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c5282;
+            border-bottom: 3px solid #4299e1;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #2d3748;
+            margin-top: 40px;
+            padding: 10px;
+            background: #edf2f7;
+            border-left: 4px solid #4299e1;
+        }
+        h3 { color: #4a5568; margin-top: 25px; }
+        .problem-box {
+            background: #fff5f5;
+            border-left: 4px solid #fc8181;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .solution-box {
+            background: #f0fff4;
+            border-left: 4px solid #68d391;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        code { font-family: 'Monaco', 'Courier New', monospace; }
+        .comment-error { color: #fc8181; font-weight: bold; }
+        .comment-success { color: #68d391; font-weight: bold; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #cbd5e0;
+            padding: 12px;
+            text-align: left;
+        }
+        th { background: #4299e1; color: white; }
+        tr:nth-child(even) { background: #f7fafc; }
+        ul, ol { margin-left: 20px; }
+        li { margin: 5px 0; }
+        .step-list {
+            background: #ebf8ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4299e1;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .print-button:hover { background: #2b6cb0; }
+        @media print {
+            .print-button { display: none; }
+            body { background: white; }
+            .container { box-shadow: none; }
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button" onclick="window.print()">🖨️ Print to PDF</button>
+    <div class="container">
+        <h1>Soccer Practice Planner - Code Issues and Fixes</h1>
+        <p><strong>Application:</strong> Soccer Practice Planner (Python/Flask)<br>
+        <strong>User:</strong> Professional youth soccer coach (U9-U16)<br>
+        <strong>Tech Stack:</strong> Flask, SQLAlchemy, Bootstrap 5, JavaScript</p>
+        <hr>
+
+        <h2>Issue 1: Dark Mode Text Visibility</h2>
+        <div class="problem-box">
+            <h3>❌ The Problem</h3>
+            <p>Users couldn't read text in dark mode - text color too dark against dark background.</p>
+        </div>
+        <h3>Problem Code (app/static/css/style-v3.css)</h3>
+        <pre><code>body.dark-mode {
+    color: #b0b0b0;  <span class="comment-error">/* ❌ Too dark */</span>
+}</code></pre>
+
+        <div class="solution-box">
+            <h3>✅ Solution</h3>
+            <pre><code>body.dark-mode {
+    color: #c9c9c9;  <span class="comment-success">/* ✅ Better contrast */</span>
+}</code></pre>
+        </div>
+
+        <hr>
+
+        <h2>Issue 2: Remove Button Not Working</h2>
+        <div class="problem-box">
+            <h3>❌ The Problem</h3>
+            <p>Remove button clicks did nothing. Event listeners attached to elements that didn't exist yet.</p>
+        </div>
+        <h3>Problem Code (app/templates/practice_plan_form.html)</h3>
+        <pre><code>document.querySelectorAll('.remove-drill-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        <span class="comment-error">// ❌ Buttons don't exist yet - created dynamically</span>
+    });
+});</code></pre>
+
+        <div class="solution-box">
+            <h3>✅ Solution: Event Delegation</h3>
+            <pre><code>selectedDrillsContainer.addEventListener('click', function(e) {
+    if (e.target.classList.contains('remove-drill-btn')) {
+        <span class="comment-success">// ✅ Works for dynamic buttons</span>
+        const drillId = e.target.closest('.drill-card').dataset.drillId;
+        selectedDrills = selectedDrills.filter(d => d.id != drillId);
+        updateSelectedDrillsDisplay();
+    }
+});</code></pre>
+        </div>
+
+        <hr>
+
+        <h2>Issue 3: Session Templates Wrong Structure</h2>
+        <div class="problem-box">
+            <h3>❌ The Problem</h3>
+            <ul>
+                <li>8 drills per template (should be 4)</li>
+                <li>175 minutes total (should be 90)</li>
+                <li>Didn't match real coaching practices</li>
+            </ul>
+        </div>
+        <h3>Problem Code (populate_improved_templates.py)</h3>
+        <pre><code>template1 = SessionTemplate(
+    total_duration=90,  <span class="comment-error"># ❌ Says 90 but adds 175 minutes!</span>
+)
+<span class="comment-error"># Added 8 drills: warm-up, 6 activities, scrimmage
+# Total: 10+15+20+25+20+...+35 = 175 minutes ❌</span></code></pre>
+
+        <div class="solution-box">
+            <h3>✅ Solution: 4 Drills, 90 Minutes</h3>
+            <pre><code><span class="comment-success"># Warm-up (12 min)</span>
+add_drill('Sharks and Minnows', 12)
+
+<span class="comment-success"># Activity 1 (20 min)</span>
+add_drill('1v1 Dribbling Race', 20)
+
+<span class="comment-success"># Activity 2 (28 min)</span>
+add_drill('4v4+2 Possession', 28)
+
+<span class="comment-success"># Scrimmage (30 min)</span>
+add_drill('Passing Square', 30)
+
+<span class="comment-success"># Total: 12+20+28+30 = 90 minutes ✅</span></code></pre>
+        </div>
+
+        <hr>
+
+        <h2>Issue 4: Inappropriate Drills</h2>
+        <div class="problem-box">
+            <h3>❌ The Problem</h3>
+            <ul>
+                <li>Agility Ladder Drills (no ball - not soccer-specific)</li>
+                <li>World Cup Tournament (specific format, not generic scrimmage)</li>
+            </ul>
+        </div>
+
+        <div class="solution-box">
+            <h3>✅ Solution: Ball-Focused Appropriate Drills</h3>
+            <p>Replaced with: Passing Square (rondo warm-up), Sharks and Minnows (dribbling), proper scrimmage activities</p>
+        </div>
+
+        <hr>
+
+        <h2>Summary Table</h2>
+        <table>
+            <tr>
+                <th>Issue</th>
+                <th>Root Cause</th>
+                <th>Solution</th>
+            </tr>
+            <tr>
+                <td>Dark Mode Text</td>
+                <td>Color #b0b0b0 too dark</td>
+                <td>Changed to #c9c9c9</td>
+            </tr>
+            <tr>
+                <td>Remove Button</td>
+                <td>Event listeners on non-existent elements</td>
+                <td>Event delegation pattern</td>
+            </tr>
+            <tr>
+                <td>Template Structure</td>
+                <td>8 drills, 175 minutes</td>
+                <td>4 drills, 90 minutes</td>
+            </tr>
+            <tr>
+                <td>Inappropriate Drills</td>
+                <td>No ball / wrong format</td>
+                <td>Ball-focused drills</td>
+            </tr>
+        </table>
+
+        <h2>Key Takeaways</h2>
+        <ol>
+            <li><strong>Accessibility:</strong> Check contrast ratios for readability</li>
+            <li><strong>Event Delegation:</strong> Essential for dynamic content</li>
+            <li><strong>Domain Knowledge:</strong> Expert user feedback is invaluable</li>
+            <li><strong>Validation:</strong> Data should match real-world constraints</li>
+        </ol>
+    </div>
+</body>
+</html>

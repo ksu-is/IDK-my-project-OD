@@ -642,7 +642,7 @@ body.dark-mode .feature-card h3 {
 }
 
 body.dark-mode .feature-card p {
-    color: #b0b0b0;
+    color: #c9c9c9;
 }
 
 body.dark-mode .form-container {
@@ -700,7 +700,7 @@ body.dark-mode .team-card .card-title {
 }
 
 body.dark-mode .team-card .card-text {
-    color: #b0b0b0;
+    color: #c9c9c9;
 }
 
 body.dark-mode .drill-card {
@@ -713,7 +713,7 @@ body.dark-mode .drill-card .card-title {
 }
 
 body.dark-mode .drill-card .card-text {
-    color: #b0b0b0;
+    color: #c9c9c9;
 }
 
 body.dark-mode .drill-detail-card {
@@ -731,7 +731,7 @@ body.dark-mode .drill-section h3 {
 }
 
 body.dark-mode .drill-section p {
-    color: #b0b0b0;
+    color: #c9c9c9;
 }
 
 body.dark-mode .info-box {
@@ -744,7 +744,7 @@ body.dark-mode .info-box strong {
 }
 
 body.dark-mode .info-box span {
-    color: #b0b0b0;
+    color: #c9c9c9;
 }
 
 body.dark-mode .btn-secondary {
@@ -762,7 +762,7 @@ body.dark-mode .empty-state h3 {
 }
 
 body.dark-mode .empty-state p {
-    color: #b0b0b0;
+    color: #c9c9c9;
 }
 
 body.dark-mode .alert-success {
@@ -797,7 +797,7 @@ body.dark-mode h6 {
 body.dark-mode p,
 body.dark-mode li,
 body.dark-mode span:not(.badge) {
-    color: #b0b0b0;
+    color: #c9c9c9;
 }
 
 body.dark-mode strong {
@@ -811,7 +811,7 @@ body.dark-mode .card-header {
 
 body.dark-mode .card-body p,
 body.dark-mode .card-body li {
-    color: #b0b0b0;
+    color: #c9c9c9;
 }
 
 body.dark-mode .card-body strong {
@@ -828,6 +828,88 @@ body.dark-mode .bg-primary {
 
 body.dark-mode .bg-success {
     background: var(--olive-green) !important;
+}
+
+body.dark-mode .btn-outline-primary {
+    color: var(--desert-gold);
+    border-color: var(--desert-gold);
+}
+
+body.dark-mode .btn-outline-primary:hover,
+body.dark-mode .btn-outline-primary.active {
+    background: var(--desert-gold);
+    border-color: var(--desert-gold);
+    color: var(--dark-slate);
+}
+
+body.dark-mode .session-choice-card,
+body.dark-mode .template-card {
+    background: #16213e;
+    color: #e0e0e0;
+}
+
+body.dark-mode .session-choice-card h3,
+body.dark-mode .template-card h5 {
+    color: #e0e0e0;
+}
+
+body.dark-mode .session-choice-card p,
+body.dark-mode .template-card p {
+    color: #c9c9c9;
+}
+
+body.dark-mode .session-choice-card ul li,
+body.dark-mode .template-card .template-info {
+    color: #c9c9c9;
+}
+
+body.dark-mode .drill-suggestion-card {
+    background: #16213e;
+    border-color: #2a2a3e;
+}
+
+body.dark-mode .drill-suggestion-card .card-title {
+    color: #e0e0e0;
+}
+
+body.dark-mode .drill-suggestion-card .card-text {
+    color: #c9c9c9;
+}
+
+body.dark-mode .selected-drill-item {
+    background: #0f1419 !important;
+    border-color: #2a2a3e !important;
+}
+
+body.dark-mode .bg-light {
+    background: #0f1419 !important;
+}
+
+body.dark-mode .form-text {
+    color: #c9c9c9;
+}
+
+body.dark-mode .badge {
+    color: white;
+}
+
+body.dark-mode .btn-info {
+    background: var(--coral-orange);
+    color: white;
+}
+
+body.dark-mode .btn-info:hover {
+    background: var(--desert-gold);
+}
+
+body.dark-mode .text-muted {
+    color: #c9c9c9 !important;
+}
+
+body.dark-mode p,
+body.dark-mode span,
+body.dark-mode label {
+    color: #e0e0e0;
 }
 
 /* Performance optimizations - reduce animations on lower-end devices */
